@@ -11,14 +11,5 @@ export default class Game extends Phaser.Game {
             scene: Level1
         };
         super(config)
-
-        //this.state.add('Level1', Level1);
-
-       // super(800, 600, Phaser.AUTO, 'content', null);
-
-/*         this.state.add('Level1', Level1, false);
-
-        this.state.start('Level1'); */
     }
-
 }
