@@ -1,6 +1,10 @@
 import Entity from './Entity';
 import {Vec2} from './Vectors';
 
+function getRandomNumber(from: number, to: number) {
+    return (Math.random() * (from - to) + to);
+}
+
 export default class Population {
     private mapSize: Vec2;
     private goalPos: Vec2;
@@ -18,16 +22,8 @@ export default class Population {
         this.entities.length = entitiesNb;
 
         for (let i = 0; i < entitiesNb; ++i) {
-            this.entities[i] = new Entity(mapSize, 10, scene.add.graphics());
-        }
-    }
-
-
-
-    public update(delta: number) {
-        for (const entity of this.entities) {
-            entity.update(delta);
-            entity.draw();
+            var block = scene.physics.add.image(10, 10, 'block');
+            this.entities[i] = new Entity(mapSize, 10, block);
         }
     }
 

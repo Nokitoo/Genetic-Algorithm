@@ -8,7 +8,10 @@ export default class Game extends Phaser.Game {
             type: Phaser.AUTO,
             width: 800,
             height: 600,
-            scene: Level1
+            scene: Level1,
+            physics: {
+                default: 'arcade'
+            }
         };
         super(config)
     }

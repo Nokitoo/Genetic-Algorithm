@@ -20,11 +20,10 @@ export default class Level1 extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('block', 'assets/sprites/block.jpg');
     }
 
     update(time: number, delta: number) {
-        this.population.update(delta);
-
         if (this.population.allEntitiesDead()) {
             this.population.evolve();
         }

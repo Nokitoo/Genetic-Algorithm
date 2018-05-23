@@ -7,55 +7,35 @@ function getRandomNumber(from: number, to: number) {
 }
 
 export default class Entity {
-    private pos: Vec2;
-    private dir: Vec2;
-    private speed: number = 50.0;
     private size: number;
+    private mapSize: Vec2;
+    private dir: Vec2;
+    private speed: number = 300.0;
     private dead: boolean = false;
 
-    private graphics: Phaser.GameObjects.Graphics;
-    private mapSize: Vec2;
+    private block: Phaser.Physics.Arcade.Image;
 
-    constructor(mapSize: Vec2, size: number, graphics: Phaser.GameObjects.Graphics) {
+    constructor(mapSize: Vec2, size: number, block: Phaser.Physics.Arcade.Image) {
         this.size = size;
-        this.graphics = graphics;
         this.mapSize = mapSize;
+        this.block = block;
 
         this.init();
     }
 
     private init() {
         this.dead = false;
-        this.pos = {
-            x: this.mapSize.x / 2.0,
-            y: this.mapSize.y - (this.size * 3)
-        };;
+        this.block.setPosition(this.mapSize.x / 2.0, this.mapSize.y - (this.size * 3));
 
         this.dir = {
             x: getRandomNumber(-1, 1),
             y: getRandomNumber(-1, 1)
         };
-    }
-
-    draw() {
-        this.graphics.clear();
-        this.graphics.fillStyle(0xff3300, 1);
-        this.graphics.fillRect(this.pos.x, this.pos.y, this.size, this.size);
-    }
-
-    update(delta: number) {
-        if (this.dead) {
-            return;
-        }
-
-        delta = 0.16;
-        this.pos.x += (this.dir.x * delta) * this.speed;
-        this.pos.y += (this.dir.y * delta) * this.speed;
-
-        if (this.pos.x <= 0 || this.pos.x >= this.mapSize.x ||
-            this.pos.y <= 0 || this.pos.y >= this.mapSize.y) {
-            this.dead = true;
-        }
+        this.block.setVelocity(
+            this.dir.x * this.speed,
+            this.dir.y * this.speed
+        );
+        this.block.setCollideWorldBounds(1);
     }
 
     public isDead() {
@@ -64,5 +44,9 @@ export default class Entity {
 
     public evolve() {
         this.init();
+    }
+
+    public getBlock() {
+        return this.block;
     }
 }
