@@ -17,10 +17,11 @@ export default class Game {
         this.stage = new PIXI.Container();
         document.body.appendChild(this.renderer.view);
         
-        this.population = new Population(500, mapSize, this.stage);
         this.goal = new Rect(10, 10, this.stage);
         this.goal.setColor(0x0000FA);
         this.goal.setPos(mapSize.x / 2.0, 0);
+        this.population = new Population(this.goal.getPos(), 500, mapSize, this.stage);
+
 
         let ticker = PIXI.ticker.shared;
         ticker.autoStart = true;

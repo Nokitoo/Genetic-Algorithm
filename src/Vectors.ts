@@ -12,4 +12,11 @@ export class Vec2 {
         this.x /= length;
         this.y /= length;
     }
+
+    public dist(point: Vec2) {
+        return Math.sqrt(
+            Math.pow(point.x - this.x, 2) +
+            Math.pow(point.y - this.y, 2)
+        )
+    }
 }

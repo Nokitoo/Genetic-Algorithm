@@ -6,14 +6,16 @@ function getRandomNumber(from: number, to: number) {
 }
 
 export default class Entity extends Rect {
+    private goalPos: Vec2;
     private mapSize: Vec2;
     private dir: Vec2 = new Vec2();
     private speed: number = 20.0;
     private dead: boolean = false;
 
-    constructor(mapSize: Vec2, size: number, stage: PIXI.Container) {
+    constructor(goalPos: Vec2, mapSize: Vec2, size: number, stage: PIXI.Container) {
         super(size, size, stage);
 
+        this.goalPos = goalPos;
         this.mapSize = mapSize;
 
         this.init();
@@ -48,6 +50,10 @@ export default class Entity extends Rect {
         if (this.pos.x < 0 || this.pos.x >= this.mapSize.x ||
             this.pos.y < 0 || this.pos.y >= this.mapSize.y) {
                 this.dead = true;
+        }
+
+        if (this.pos.dist(this.goalPos) <= this.size.x) {
+            this.setColor(0x00FF00);
         }
     }
 }

@@ -9,19 +9,14 @@ function getRandomNumber(from: number, to: number) {
 
 export default class Population {
     private mapSize: Vec2;
-    private goalPos: Vec2;
     private entities: Entity[] = [];
 
-    constructor(entitiesNb: number, mapSize: Vec2, stage: PIXI.Container) {
+    constructor(goalPos: Vec2, entitiesNb: number, mapSize: Vec2, stage: PIXI.Container) {
         this.mapSize = mapSize;
-        this.goalPos = new Vec2(
-            mapSize.x / 2.0,
-            0
-        );
         this.entities.length = entitiesNb;
 
         for (let i = 0; i < entitiesNb; ++i) {
-            this.entities[i] = new Entity(mapSize, 10, stage);
+            this.entities[i] = new Entity(goalPos, mapSize, 10, stage);
         }
     }
 

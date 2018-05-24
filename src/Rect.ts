@@ -34,4 +34,8 @@ export default class Rect {
         this.graphics.drawRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
         this.graphics.endFill();
     }
+
+    public getPos() {
+        return this.pos;
+    }
 }
