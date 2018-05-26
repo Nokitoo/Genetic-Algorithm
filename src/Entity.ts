@@ -7,7 +7,9 @@ export default class Entity extends Rect {
     private mapSize: Vec2;
     private speed: number = 30.0;
     private dead: boolean = false;
+
     private brain: Brain;
+    private fitness: number;
 
     constructor(goalPos: Vec2, mapSize: Vec2, size: number, stage: PIXI.Container) {
         super(size, size, stage);
@@ -21,13 +23,21 @@ export default class Entity extends Rect {
 
     private init() {
         this.dead = false;
-        this. pos.x = this.mapSize.x / 2.0,
+        this.pos.x = this.mapSize.x / 2.0,
         this.pos.y = this.mapSize.y - (this.size.y * 3);
         this.brain.reset();
     }
 
     public isDead() {
         return this.dead;
+    }
+
+    public getFitness() {
+        return this.fitness;
+    }
+
+    public getBrain() {
+        return this.brain;
     }
 
     public evolve() {
@@ -49,9 +59,16 @@ export default class Entity extends Rect {
                 this.dead = true;
                 return;
         }
+    }
 
-        if (this.pos.dist(this.goalPos) <= this.size.x) {
-            this.setColor(0x00FF00);
-        }
+    public calculateFitness() {
+        this.fitness = this.pos.dist(this.goalPos) * -1;
+    }
+
+    static makeChild(entityA: Entity, entityB: Entity): Entity {
+        let entity = new Entity(entityA.goalPos, entityA.mapSize, entityA.size.x, entityA.stage);
+        entity.getBrain().getOffspring(entityA.getBrain(), entityB.getBrain());
+
+        return entity;
     }
 }

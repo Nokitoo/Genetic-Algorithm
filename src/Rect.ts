@@ -9,15 +9,17 @@ export default class Rect {
 
     protected pos: Vec2 = new Vec2();
     protected size: Vec2;
+    protected stage: PIXI.Container;
 
     constructor(width: number, height: number, stage: PIXI.Container) {
+        this.stage = stage;
         this.size = new Vec2(width, height);
 
         this.graphics = new PIXI.Graphics();
         stage.addChild(this.graphics);
     }
 
-    public setColor(color: number, alpha?: number) {
+    public setColor(color: number, alpha: number = 1.0) {
         this.color = color;
         this.alpha = alpha;
     }
@@ -37,5 +39,9 @@ export default class Rect {
 
     public getPos() {
         return this.pos;
+    }
+
+    public destroy() {
+        this.stage.removeChild(this.graphics);
     }
 }

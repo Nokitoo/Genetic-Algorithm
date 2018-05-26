@@ -2,13 +2,15 @@ import {Vec2} from './Vectors';
 import {getRandomNumber} from './utils';
 
 export default class Brain {
-    directions: Vec2[] = [];
-    step: number = 0;
+    public size: number = 0;
+    public directions: Vec2[] = [];
+    public step: number = 0;
 
     constructor(size: number) {
-        this.directions.length = size;
+        this.size = size;
+        this.directions.length = this.size;
 
-        for (let i = 0; i < size; ++i) {
+        for (let i = 0; i < this.size; ++i) {
             const direction = new Vec2(
                 getRandomNumber(-1, 1),
                 getRandomNumber(-1, 1)
@@ -19,7 +21,7 @@ export default class Brain {
     }
 
     public updatePos(pos: Vec2, elapsed: number, speed: number): boolean {
-        if (this.step >= this.directions.length) {
+        if (this.step >= this.size) {
             return false;
         }
 
@@ -32,5 +34,18 @@ export default class Brain {
 
     public reset() {
         this.step = 0;
+    }
+
+    public getOffspring(brainA: Brain, brainB: Brain): void {
+        const from = getRandomNumber(0, this.size);
+        const to = getRandomNumber(from, this.size);
+
+        this.directions = [
+            brainA.directions.slice(0, from),
+            brainB.directions.slice(from, to),
+            brainA.directions.slice(to, this.size)
+        ].reduce((res: Vec2[], directions:  Vec2[]) => {
+            return res.concat(directions);
+        });
     }
 }

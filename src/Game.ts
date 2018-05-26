@@ -17,18 +17,23 @@ export default class Game {
         this.stage = new PIXI.Container();
         document.body.appendChild(this.renderer.view);
         
+        // Setup goal
         this.goal = new Rect(10, 10, this.stage);
         this.goal.setColor(0x0000FA);
         this.goal.setPos(mapSize.x / 2.0, 0);
+
         this.population = new Population(this.goal.getPos(), 500, mapSize, this.stage);
 
 
+        // Setup ticker to call this.update every tick
+        // Thus, we render manually
         let ticker = PIXI.ticker.shared;
         ticker.autoStart = true;
         ticker.add(this.update, this);
     }
 
     private update(elapsed: number) {
+        // TODO: Get real elapsed
         this.population.update(0.16);
         this.draw();
     }
