@@ -91,10 +91,12 @@ export default class Population {
         console.log('Entities nb:', this.entities.length);
     }
 
-    public update(elapsed: number) {
+    public update(gameSpeed: number, elapsed: number) {
         // Move entities
-        for (const entity of this.entities) {
-            entity.update(elapsed);
+        for (let i = 0; i < gameSpeed; ++i) {
+            for (const entity of this.entities) {
+                entity.update(elapsed);
+            }
         }
 
         if (this.allEntitiesDead()) {

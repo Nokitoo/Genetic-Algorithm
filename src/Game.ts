@@ -11,6 +11,7 @@ export default class Game {
 
     private population: Population;
     private goal: Rect;
+    public speed: number = 1;
 
     constructor(mapSize: Vec2) {
         this.renderer = PIXI.autoDetectRenderer(800, 600);
@@ -34,7 +35,7 @@ export default class Game {
 
     private update(elapsed: number) {
         // TODO: Get real elapsed
-        this.population.update(0.16);
+        this.population.update(this.speed, 0.16);
         this.draw();
     }
 
