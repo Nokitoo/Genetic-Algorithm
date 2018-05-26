@@ -75,7 +75,7 @@ export default class Population {
 
         // Select random entities
         for (let i = 0; i < randomSampleNb; ++i) {
-            const randIndex = Math.round(getRandomNumber(0, this.entities.length));
+            const randIndex = Math.round(getRandomNumber(0, this.entities.length - 1));
             newGeneration.push(this.entities[randIndex]);
         }
 
