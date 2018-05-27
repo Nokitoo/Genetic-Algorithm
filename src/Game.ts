@@ -12,7 +12,7 @@ export default class Game {
     private population: Population;
     private goal: Rect;
     private obstacles: Rect[];
-    public speed: number = 1;
+    public speed: number = 30;
 
     constructor(mapSize: Vec2) {
         this.renderer = PIXI.autoDetectRenderer(800, 600);
@@ -25,10 +25,11 @@ export default class Game {
         this.goal.setPos(mapSize.x / 2.0, 0);
 
         this.obstacles = [
-            new Rect(this.stage, 300, 20, mapSize.x / 2 - 150, mapSize.y / 2, 0xFFFF00)
+            new Rect(this.stage, mapSize.x / 2, 5, 0, mapSize.y / 2, 0xFFFF00),
+            new Rect(this.stage, mapSize.x / 2, 5, mapSize.x / 2 + 20, mapSize.y / 2, 0xFFFF00)
         ]
 
-        this.population = new Population(this.goal.getPos(), 500, mapSize, this.stage);
+        this.population = new Population(this.goal.getPos(), 1000, mapSize, this.stage);
 
 
         // Setup ticker to call this.update every tick

@@ -11,11 +11,8 @@ export default class Brain {
         this.directions.length = this.size;
 
         for (let i = 0; i < this.size; ++i) {
-            const direction = new Vec2(
-                getRandomNumber(-1, 1),
-                getRandomNumber(-1, 1)
-            );
-            direction.normalize();
+            const randomAngle = getRandomNumber(Math.PI * -1, Math.PI);
+            const direction = Vec2.fromAngle(randomAngle);
             this.directions[i] = direction;
         }
     }
@@ -34,18 +31,5 @@ export default class Brain {
 
     public reset() {
         this.step = 0;
-    }
-
-    public getOffspring(brainA: Brain, brainB: Brain): void {
-        const from = getRandomNumber(0, this.size);
-        const to = getRandomNumber(from, this.size);
-
-        this.directions = [
-            brainA.directions.slice(0, from),
-            brainB.directions.slice(from, to),
-            brainA.directions.slice(to, this.size)
-        ].reduce((res: Vec2[], directions:  Vec2[]) => {
-            return res.concat(directions);
-        });
     }
 }

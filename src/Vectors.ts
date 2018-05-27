@@ -19,4 +19,11 @@ export class Vec2 {
             Math.pow(point.y - this.y, 2)
         )
     }
+
+    static fromAngle(angle: number): Vec2 {
+        return new Vec2(
+            Math.cos(angle),
+            Math.sin(angle)
+        );
+    }
 }

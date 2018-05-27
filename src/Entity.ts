@@ -7,8 +7,10 @@ export default class Entity extends Rect {
     private mapSize: Vec2;
     private speed: number = 30.0;
     private dead: boolean = false;
+    private collide: boolean = false;
+    private reachedGoal: boolean = false;
 
-    private brain: Brain;
+    public brain: Brain;
     private fitness: number;
 
     constructor(goalPos: Vec2, mapSize: Vec2, size: number, stage: PIXI.Container) {
@@ -16,7 +18,7 @@ export default class Entity extends Rect {
 
         this.goalPos = goalPos;
         this.mapSize = mapSize;
-        this.brain = new Brain(500);
+        this.brain = new Brain(1000);
         this.setColor(0xFF0000);
 
         this.init();
@@ -27,22 +29,21 @@ export default class Entity extends Rect {
         this.pos.x = this.mapSize.x / 2.0,
         this.pos.y = this.mapSize.y - (this.size.y * 3);
         this.brain.reset();
+        this.collide = false;
+        this.reachedGoal = false;
     }
 
     public isDead(): boolean {
         return this.dead;
     }
 
-    public setDead(dead: boolean): void {
+    public hasCollide(dead: boolean): void {
         this.dead = dead;
+        this.collide = true;
     }
 
     public getFitness() {
         return this.fitness;
-    }
-
-    public getBrain() {
-        return this.brain;
     }
 
     public evolve() {
@@ -50,13 +51,19 @@ export default class Entity extends Rect {
     }
 
     public update(elapsed: number) {
-        if (this.isDead()) {
+        if (this.isDead() || this.reachedGoal) {
             return;
         }
 
         if (!this.brain.updatePos(this.pos, elapsed, this.speed)) {
             this.dead = true;
             return;
+        }
+
+        if (this.goalPos.dist(this.pos) <= this.size.x) {
+            this.setColor(0x00FF00);
+            this.reachedGoal = true;
+            this.dead = true;
         }
 
         if (this.pos.x < 0 || this.pos.x >= this.mapSize.x ||
@@ -67,13 +74,12 @@ export default class Entity extends Rect {
     }
 
     public calculateFitness() {
-        this.fitness = this.pos.dist(this.goalPos) * -1;
-    }
+        if (this.reachedGoal) {
+            this.fitness = 1.0 / (this.brain.step * this.brain.step);
+            return;
+        }
 
-    static makeChild(entityA: Entity, entityB: Entity): Entity {
-        let entity = new Entity(entityA.goalPos, entityA.mapSize, entityA.size.x, entityA.stage);
-        entity.getBrain().getOffspring(entityA.getBrain(), entityB.getBrain());
-
-        return entity;
+        const dist = this.pos.dist(this.goalPos);
+        this.fitness = 1.0 / (dist * dist);
     }
 }
