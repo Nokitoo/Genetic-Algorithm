@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Entity from './Entity';
 import {Vec2} from './Vectors';
 import {getRandomNumber} from './utils';
+import Rect from './Rect';
 
 const BEST_SAMPLES_RATE = 0.2;
 const RANDOM_SAMPLES_RATE = 0.07;
@@ -91,11 +92,16 @@ export default class Population {
         console.log('Entities nb:', this.entities.length);
     }
 
-    public update(gameSpeed: number, elapsed: number) {
+    public update(gameSpeed: number, elapsed: number, obstacles: Rect[]) {
         // Move entities
         for (let i = 0; i < gameSpeed; ++i) {
             for (const entity of this.entities) {
                 entity.update(elapsed);
+                for (const obstacle of obstacles) {
+                    if (Rect.collide(entity, obstacle)) {
+                        entity.setDead(true);
+                    }
+                }
             }
         }
 

@@ -12,7 +12,7 @@ export default class Entity extends Rect {
     private fitness: number;
 
     constructor(goalPos: Vec2, mapSize: Vec2, size: number, stage: PIXI.Container) {
-        super(size, size, stage);
+        super(stage, size, size);
 
         this.goalPos = goalPos;
         this.mapSize = mapSize;
@@ -29,8 +29,12 @@ export default class Entity extends Rect {
         this.brain.reset();
     }
 
-    public isDead() {
+    public isDead(): boolean {
         return this.dead;
+    }
+
+    public setDead(dead: boolean): void {
+        this.dead = dead;
     }
 
     public getFitness() {

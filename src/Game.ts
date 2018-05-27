@@ -11,6 +11,7 @@ export default class Game {
 
     private population: Population;
     private goal: Rect;
+    private obstacles: Rect[];
     public speed: number = 1;
 
     constructor(mapSize: Vec2) {
@@ -19,9 +20,13 @@ export default class Game {
         document.body.appendChild(this.renderer.view);
         
         // Setup goal
-        this.goal = new Rect(10, 10, this.stage);
+        this.goal = new Rect(this.stage, 10, 10);
         this.goal.setColor(0x00FF00);
         this.goal.setPos(mapSize.x / 2.0, 0);
+
+        this.obstacles = [
+            new Rect(this.stage, 300, 20, mapSize.x / 2 - 150, mapSize.y / 2, 0xFFFF00)
+        ]
 
         this.population = new Population(this.goal.getPos(), 500, mapSize, this.stage);
 
@@ -35,13 +40,17 @@ export default class Game {
 
     private update(elapsed: number) {
         // TODO: Get real elapsed
-        this.population.update(this.speed, 0.16);
+        this.population.update(this.speed, 0.16, this.obstacles);
         this.draw();
     }
 
     private draw() {
-        this.population.draw();
+        for (const obstacle of this.obstacles) {
+            obstacle.draw();
+        }
+
         this.goal.draw();
+        this.population.draw();
         this.renderer.render(this.stage);
     }
 }

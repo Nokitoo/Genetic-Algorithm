@@ -11,9 +11,11 @@ export default class Rect {
     protected size: Vec2;
     protected stage: PIXI.Container;
 
-    constructor(width: number, height: number, stage: PIXI.Container) {
+    constructor(stage: PIXI.Container, width: number, height: number, x: number = 0, y: number = 0, color: number = 0xFFFFFF) {
         this.stage = stage;
         this.size = new Vec2(width, height);
+        this.pos = new Vec2(x, y);
+        this.color = color;
 
         this.graphics = new PIXI.Graphics();
         stage.addChild(this.graphics);
@@ -43,5 +45,12 @@ export default class Rect {
 
     public destroy() {
         this.stage.removeChild(this.graphics);
+    }
+
+    static collide(rectA: Rect, rectB: Rect) {
+        return rectA.pos.x < rectB.pos.x + rectB.size.x &&
+            rectA.pos.x + rectA.size.x > rectB.pos.x &&
+            rectA.pos.y < rectB.pos.y + rectB.size.y &&
+            rectA.size.y + rectA.pos.y > rectB.pos.y;
     }
 }
