@@ -17,6 +17,7 @@ export default class Entity extends Rect {
         this.goalPos = goalPos;
         this.mapSize = mapSize;
         this.brain = new Brain(500);
+        this.setColor(0xFF0000);
 
         this.init();
     }

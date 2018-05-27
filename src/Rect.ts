@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import {Vec2} from './Vectors';
 
 export default class Rect {
-    private graphics: PIXI.Graphics;
+    protected graphics: PIXI.Graphics;
     private color: number = 0xFFFFFF;
     private alpha: number = 1.0;
 
@@ -31,7 +31,7 @@ export default class Rect {
 
     public draw() {
         this.graphics.clear();
-        this.graphics.lineStyle(0);
+        this.graphics.lineStyle(1, this.color, this.alpha);
         this.graphics.beginFill(this.color, this.alpha);
         this.graphics.drawRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
         this.graphics.endFill();

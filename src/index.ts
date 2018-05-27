@@ -17,7 +17,7 @@ function bindKeyListener(game: Game) {
 
         if (code == 107) {
             game.speed++;
-        } else if (code == 109) {
+        } else if (code == 109 && game.speed > 1) {
             game.speed--;
         }
     });

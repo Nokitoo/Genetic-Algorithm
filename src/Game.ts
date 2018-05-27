@@ -20,7 +20,7 @@ export default class Game {
         
         // Setup goal
         this.goal = new Rect(10, 10, this.stage);
-        this.goal.setColor(0x0000FA);
+        this.goal.setColor(0x00FF00);
         this.goal.setPos(mapSize.x / 2.0, 0);
 
         this.population = new Population(this.goal.getPos(), 500, mapSize, this.stage);
